@@ -1,0 +1,42 @@
+import mysql.connector
+
+class DBHelper:
+    def saveStudentInDB(self, Student):
+        # 1. create SQL statement
+        sql = "insert into Student values( null,'{}', '{}', '{}', '{}')".format(Student.name, Student.urn, Student.phone,Student.address,student.crn)
+
+        # 2.create connection with database
+        con = mysql.connector.connect(user="root", password="", host="127.0.0.1", database="Lab2")
+
+        # 3. Obtain Cursor to execute sql statements
+        cursor = con.cursor()
+        cursor.execute(sql)
+        con.commit()
+
+        print(Student.name, "saved !!")
+
+
+#model
+class Student:
+
+    def __init__(self, name, urn, phone, address, crn):
+        self.name = name
+        self.urn = urn
+        self.phone = phone
+        self.address=address
+        self.crn=crn
+
+    def showStudentDetails(self):
+        print(">> Name: {}   urn: {}  Phone: {}  Address: {} crn: {}".format(self.name, self.urn, self.phone, self.address, self.crn))
+
+cRef = Student(None, None, None, None,None)
+cRef.name = input("Enter Student name")
+cRef.urn = input("Enter Student urn")
+cRef.phone = input("Enter Student phone")
+cRef.address= input("Enter Student address")
+cRef.crn= input("Enter Student crn")
+cRef.showStudentDetails()
+save = input("Woukd you like to save the Student(yes/no)")
+if save == "yes":
+    db = DBHelper()
+    db.saveStudentInDB(cRef)
